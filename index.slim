@@ -22,7 +22,7 @@ html lang='en'
         display: block;
       }
 
-      img {
+      .b-thumb {
         float: left;
         padding: 1em;
         max-width: 300px;
@@ -44,6 +44,9 @@ html lang='en'
   body
     a href="https://twitter.com/search?q=saverinjani" class="b-logo"
       | #SaveRinjani
+
+    - images.shuffle.each do |src|
+      img class="b-thumb" src=src
 
     /! Root element of PhotoSwipe. Must have class pswp.
     .pswp aria-hidden="true" role="dialog" tabindex="-1"
@@ -94,19 +97,43 @@ html lang='en'
 
 
     javascript:
-      var pswpElement = document.querySelectorAll('.pswp')[0];
 
-      // build items array
-      var items = #{{json_images}};
 
-      // define options (if needed)
-      var options = {
-          // optionName: 'option value'
-          // for example:
-          index: 0 // start at first slide
+      var thumbnails = document.querySelectorAll('.b-thumb');
+      var images = [];
+
+      var openGallery = function(event) {
+        var index = [].indexOf.call(thumbnails, event.target);
+
+        var options = {
+            index: index
+        };
+
+        console.log("options: ", options);
+
+        var pswpElement = document.querySelectorAll('.pswp')[0];
+
+        var gallery = new PhotoSwipe( pswpElement, PhotoSwipeUI_Default, images, options);
+        gallery.init();
       };
 
+      for(var i=0; i<thumbnails.length; i++) {
+        var thumb = thumbnails[i];
+
+        images[i] = {
+          src: thumb.src,
+          w: thumb.naturalWidth,
+          h: thumb.naturalHeight
+        };
+
+        thumb.addEventListener('click', openGallery);
+      }
+
+
+      // build items array
+      // var items = #{{json_images}};
+
+      // define options (if needed)
+
       // Initializes and opens PhotoSwipe
-      var gallery = new PhotoSwipe( pswpElement, PhotoSwipeUI_Default, items, options);
-      gallery.init();
 
