@@ -30,13 +30,83 @@ html lang='en'
 
     - require_relative "some-code"
 
+    link rel="stylesheet" href="node_modules/photoswipe/dist/photoswipe.css"
+
+    /In the folder of skin CSS file there are also:
+    /- .png and .svg icons sprite,
+    /- preloader.gif (for browsers that do not support CSS animations) -->
+    link rel="stylesheet" href="node_modules/photoswipe/dist/default-skin/default-skin.css"
+
+    script src="node_modules/photoswipe/dist/photoswipe.min.js"
+
+    script src="node_modules/photoswipe/dist/photoswipe-ui-default.min.js"
+
   body
     a href="https://twitter.com/search?q=saverinjani" class="b-logo"
       | #SaveRinjani
-    
-    hr
 
-    - images.shuffle.each do |src|
-      img src=src
+    /! Root element of PhotoSwipe. Must have class pswp.
+    .pswp aria-hidden="true" role="dialog" tabindex="-1"
 
+      /!
+        | Background of PhotoSwipe.
+        | It's a separate element as animating opacity is faster than rgba().
+      .pswp__bg
+
+      /! Slides wrapper with overflow:hidden.
+      .pswp__scroll-wrap
+
+        /!
+          | Container that holds slides.
+          | PhotoSwipe keeps only 3 of them in the DOM to save memory.
+          | Don't modify these 3 pswp__item elements, data is added later on.
+        .pswp__container
+          .pswp__item
+          .pswp__item
+          .pswp__item
+
+        /! Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed.
+        .pswp__ui.pswp__ui--hidden
+          .pswp__top-bar
+
+            /! Controls are self-explanatory. Order can be changed.
+            .pswp__counter
+            button.pswp__button.pswp__button--close title=("Close (Esc)")
+            button.pswp__button.pswp__button--share title="Share"
+            button.pswp__button.pswp__button--fs title=("Toggle fullscreen")
+            button.pswp__button.pswp__button--zoom title=("Zoom in/out")
+
+            /! Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR
+            /! element will get class pswp__preloader--active when preloader is running
+            .pswp__preloader
+              .pswp__preloader__icn
+                .pswp__preloader__cut
+                  .pswp__preloader__donut
+
+          .pswp__share-modal.pswp__share-modal--hidden.pswp__single-tap
+            .pswp__share-tooltip
+
+          button.pswp__button.pswp__button--arrow--left title=("Previous (arrow left)")
+          button.pswp__button.pswp__button--arrow--right title=("Next (arrow right)")
+
+          .pswp__caption
+            .pswp__caption__center
+
+
+    javascript:
+      var pswpElement = document.querySelectorAll('.pswp')[0];
+
+      // build items array
+      var items = #{{json_images}};
+
+      // define options (if needed)
+      var options = {
+          // optionName: 'option value'
+          // for example:
+          index: 0 // start at first slide
+      };
+
+      // Initializes and opens PhotoSwipe
+      var gallery = new PhotoSwipe( pswpElement, PhotoSwipeUI_Default, items, options);
+      gallery.init();
 
