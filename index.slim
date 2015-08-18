@@ -1,0 +1,42 @@
+doctype html
+html lang='en'
+  head
+    meta(charset="utf-8")
+    meta(http-equiv="X-UA-Compatible" content="IE=edge")
+    meta(name="viewport" content="width=device-width, initial-scale=1")
+
+    title Save Rinjani!
+
+    scss:
+      body {
+        text-align: center;
+        padding: 2em;
+      }
+
+      .b-logo {
+        font-size: 2em;
+        text-decoration: none;
+        color: black;
+        clear: both;
+        margin: 0 auto;
+        display: block;
+      }
+
+      img {
+        float: left;
+        padding: 1em;
+        max-width: 300px;
+      }
+
+    - require_relative "some-code"
+
+  body
+    a href="https://twitter.com/search?q=saverinjani" class="b-logo"
+      | #SaveRinjani
+    
+    hr
+
+    - images.shuffle.each do |src|
+      img src=src
+
+
