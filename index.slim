@@ -9,23 +9,41 @@ html lang='en'
 
     scss:
       body {
+        background: #222;
         text-align: center;
-        padding: 2em;
+        padding: 1em 2em;
+        font-family: Georgia, serif;
       }
 
       .b-logo {
+        color: #BBB;
         font-size: 2em;
         text-decoration: none;
-        color: black;
         clear: both;
-        margin: 0 auto;
+        margin: 1em auto;
         display: block;
       }
 
+      .b-desc {
+        color: #BBB;
+        font-size: 1.25em;
+        max-width: 600px;
+        margin: 1em auto;
+        text-align: left;
+        text-indent: 2em;
+
+        a {
+          color: #BBB;
+        }
+      }
+
       .b-thumb {
-        float: left;
-        padding: 1em;
+        display: inline-block;
+        margin: 1em;
         max-width: 300px;
+        cursor: pointer;
+        border-radius: 5px;
+        box-shadow: 0px 0px 4px #444;
       }
 
     - require_relative "some-code"
@@ -44,6 +62,16 @@ html lang='en'
   body
     a href="https://twitter.com/search?q=saverinjani" class="b-logo"
       | #SaveRinjani
+
+    p.b-desc
+      | Rinjani is a beautiful mountain, we need to preserve it! 
+      a href='http://www.rudytrekker.com'
+        strong Rudy Trekker 
+      | is doing a good job of keeping Rinjani clean through trash collection programs and hard work! 
+    p.b-desc
+      | Our job is not only to pick up trash but also 
+      strong educate 
+      | others!
 
     - images.shuffle.each do |src|
       img class="b-thumb" src=src
@@ -97,20 +125,12 @@ html lang='en'
 
 
     javascript:
-
-
       var thumbnails = document.querySelectorAll('.b-thumb');
       var images = [];
 
       var openGallery = function(event) {
         var index = [].indexOf.call(thumbnails, event.target);
-
-        var options = {
-            index: index
-        };
-
-        console.log("options: ", options);
-
+        var options = { index: index };
         var pswpElement = document.querySelectorAll('.pswp')[0];
 
         var gallery = new PhotoSwipe( pswpElement, PhotoSwipeUI_Default, images, options);
@@ -119,21 +139,11 @@ html lang='en'
 
       for(var i=0; i<thumbnails.length; i++) {
         var thumb = thumbnails[i];
-
         images[i] = {
           src: thumb.src,
-          w: thumb.naturalWidth,
-          h: thumb.naturalHeight
+          w: 1440,
+          h: 810
         };
 
         thumb.addEventListener('click', openGallery);
       }
-
-
-      // build items array
-      // var items = #{{json_images}};
-
-      // define options (if needed)
-
-      // Initializes and opens PhotoSwipe
-
