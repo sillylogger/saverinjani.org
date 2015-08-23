@@ -1,16 +1,16 @@
-require 'json'
+require 'fastimage'
 
-def images
-  Dir['./*.jpg']
-end
+def attributes src, data = {}
+  width, height = FastImage.size src
+  attrs = {}
 
-def json_images
- JSON.generate(images.map{|src|
   {
+    class: 'b-thumb',
     src: src,
-    w: 1440,
-    h: 900
-  }
- })
+    data: {
+      width: width,
+      height: height
+    }.merge(data)
+  }.merge(attrs)
 end
 

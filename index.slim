@@ -1,3 +1,5 @@
+- require 'slim/include'
+
 doctype html
 html lang='en'
   head
@@ -16,7 +18,7 @@ html lang='en'
       }
 
       .b-logo {
-        color: #BBB;
+        color: #EEE;
         font-size: 2em;
         text-decoration: none;
         clear: both;
@@ -25,7 +27,7 @@ html lang='en'
       }
 
       .b-desc {
-        color: #BBB;
+        color: #EEE;
         font-size: 1.25em;
         max-width: 600px;
         margin: 1em auto;
@@ -42,8 +44,15 @@ html lang='en'
         margin: 1em;
         max-width: 300px;
         cursor: pointer;
-        border-radius: 5px;
-        box-shadow: 0px 0px 4px #444;
+        vertical-align: middle;
+        border-radius: 3px;
+        box-shadow: 0px 0px 8px #444;
+      }
+
+      .b-label {
+        color: #EEE;
+        font-size: 1.33em;
+        text-align: left;
       }
 
     - require_relative "some-code"
@@ -64,86 +73,36 @@ html lang='en'
       | #SaveRinjani
 
     p.b-desc
-      | Rinjani is a beautiful mountain, we need to preserve it! 
-      a href='http://www.rudytrekker.com'
-        strong Rudy Trekker 
-      | is doing a good job of keeping Rinjani clean through trash collection programs and hard work! 
+      | The purpose of SaveRinjani.org is to help clean Mount Rinjani and prevent the pollution of Indonesia through education.
+
     p.b-desc
-      | Our job is not only to pick up trash but also 
-      strong educate 
-      | others!
+      | Donations will be sent to 
+      a href='http://www.rudytrekker.com'
+        strong Rudy Trekker
+      |  who run ongoing trash collection programs!
 
-    - images.shuffle.each do |src|
-      img class="b-thumb" src=src
+    include donate-button
 
-    /! Root element of PhotoSwipe. Must have class pswp.
-    .pswp aria-hidden="true" role="dialog" tabindex="-1"
+    h3.b-label The trash:
 
-      /!
-        | Background of PhotoSwipe.
-        | It's a separate element as animating opacity is faster than rgba().
-      .pswp__bg
+    img(*attributes("./the-trash/2015-08-15.jpg",   title: "A pile of trash waiting for someone to burn it..."))
+    img(*attributes("./the-trash/2015-08-16-2.jpg", title: "Temporary latrine filled with human waste.  Will be removed shortly but the waste stays..."))
+    img(*attributes("./the-trash/2015-08-16-3.jpg", title: "A plastic trash bag flying in the wind..."))
+    img(*attributes("./the-trash/2015-08-16-4.jpg"))
+    img(*attributes("./the-trash/2015-08-16.jpg"))
 
-      /! Slides wrapper with overflow:hidden.
-      .pswp__scroll-wrap
+    h3.b-label Half a week of collection:
 
-        /!
-          | Container that holds slides.
-          | PhotoSwipe keeps only 3 of them in the DOM to save memory.
-          | Don't modify these 3 pswp__item elements, data is added later on.
-        .pswp__container
-          .pswp__item
-          .pswp__item
-          .pswp__item
+    img(*attributes("./cleanup-efforts/2015-08-17-2.jpg", title: "Plastic bottles and natural gas cans collected from less than a weeks worth of portering."))
+    img(*attributes("./cleanup-efforts/2015-08-17.jpg",   title: "That's the problem!"))
 
-        /! Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed.
-        .pswp__ui.pswp__ui--hidden
-          .pswp__top-bar
+    h3.b-label Another week:
 
-            /! Controls are self-explanatory. Order can be changed.
-            .pswp__counter
-            button.pswp__button.pswp__button--close title=("Close (Esc)")
-            button.pswp__button.pswp__button--share title="Share"
-            button.pswp__button.pswp__button--fs title=("Toggle fullscreen")
-            button.pswp__button.pswp__button--zoom title=("Zoom in/out")
+    img(*attributes("./photos-from-rudy/2015-08-23-4.jpg"))
+    img(*attributes("./photos-from-rudy/2015-08-23.jpg"))
+    img(*attributes("./photos-from-rudy/2015-08-23-3.jpg"))
+    img(*attributes("./photos-from-rudy/2015-08-23-2.jpg", title: "Rudy with a full week's worth of bottles collected from Rinjani."))
+    img(*attributes("./photos-from-rudy/2015-08-23-5.jpg", title: "Hauling the plastic and steel away to be melted and recycled."))
 
-            /! Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR
-            /! element will get class pswp__preloader--active when preloader is running
-            .pswp__preloader
-              .pswp__preloader__icn
-                .pswp__preloader__cut
-                  .pswp__preloader__donut
+    include photo-swipe
 
-          .pswp__share-modal.pswp__share-modal--hidden.pswp__single-tap
-            .pswp__share-tooltip
-
-          button.pswp__button.pswp__button--arrow--left title=("Previous (arrow left)")
-          button.pswp__button.pswp__button--arrow--right title=("Next (arrow right)")
-
-          .pswp__caption
-            .pswp__caption__center
-
-
-    javascript:
-      var thumbnails = document.querySelectorAll('.b-thumb');
-      var images = [];
-
-      var openGallery = function(event) {
-        var index = [].indexOf.call(thumbnails, event.target);
-        var options = { index: index };
-        var pswpElement = document.querySelectorAll('.pswp')[0];
-
-        var gallery = new PhotoSwipe( pswpElement, PhotoSwipeUI_Default, images, options);
-        gallery.init();
-      };
-
-      for(var i=0; i<thumbnails.length; i++) {
-        var thumb = thumbnails[i];
-        images[i] = {
-          src: thumb.src,
-          w: 1440,
-          h: 810
-        };
-
-        thumb.addEventListener('click', openGallery);
-      }
